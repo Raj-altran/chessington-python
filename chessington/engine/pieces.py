@@ -39,15 +39,18 @@ class Pawn(Piece):
         current = board.find_piece(self)
         row = current.row
         col = current.col
+        possible_moves = []
 
         if self.player == Player.WHITE:
-            possible_moves = []
-            next = Square.at(row+1, col)
-            possible_moves.append(next)
+            possible_moves.append(Square.at(row+1, col))
+            if row == 1:
+                possible_moves.append(Square.at(row + 2, col))
+
         else:
-            possible_moves = []
-            next = Square.at(row-1, col)
-            possible_moves.append(next)
+            if row == 6:
+                possible_moves.append(Square.at(row - 2, col))
+
+            possible_moves.append(Square.at(row-1, col))
 
         return possible_moves
 

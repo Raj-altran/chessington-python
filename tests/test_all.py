@@ -1,0 +1,14 @@
+from test_board import *
+from test_pieces import *
+
+TestPawns.test_white_pawns_can_move_up_one_square()
+
+TestPawns.test_black_pawns_can_move_down_one_square()
+
+TestPawns.test_white_pawn_can_move_up_two_squares_if_not_moved()
+
+TestPawns.test_black_pawn_can_move_down_two_squares_if_not_moved()
+
+TestPawns.test_white_pawn_cannot_move_up_two_squares_if_already_moved()
+
+TestPawns.test_black_pawn_cannot_move_down_two_squares_if_already_moved()
