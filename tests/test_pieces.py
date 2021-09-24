@@ -33,3 +33,5 @@ class TestPawns:
 
         # Assert
         assert Square.at(5, 4) in moves
+
+TestPawns.test_white_pawns_can_move_up_one_square()
