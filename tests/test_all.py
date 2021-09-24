@@ -12,3 +12,10 @@ TestPawns.test_black_pawn_can_move_down_two_squares_if_not_moved()
 TestPawns.test_white_pawn_cannot_move_up_two_squares_if_already_moved()
 
 TestPawns.test_black_pawn_cannot_move_down_two_squares_if_already_moved()
+
+
+test_new_board_has_white_pieces_at_bottom()
+
+test_new_board_has_black_pieces_at_top()
+
+test_pieces_can_be_moved_on_the_board()
