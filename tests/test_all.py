@@ -1,21 +1,34 @@
 from test_board import *
 from test_pieces import *
 
-TestPawns.test_white_pawns_can_move_up_one_square()
+# TestPawns.test_white_pawns_can_move_up_one_square()
+# TestPawns.test_black_pawns_can_move_down_one_square()
+#
+# TestPawns.test_white_pawn_can_move_up_two_squares_if_not_moved()
+# TestPawns.test_black_pawn_can_move_down_two_squares_if_not_moved()
+#
+# TestPawns.test_white_pawn_cannot_move_up_two_squares_if_already_moved()
+# TestPawns.test_black_pawn_cannot_move_down_two_squares_if_already_moved()
+#
+# TestPawns.test_white_pawn_cannot_move_if_piece_in_front()
+# TestPawns.test_black_pawn_cannot_move_if_piece_in_front()
+#
+# TestPawns.test_white_pawn_cannot_move_two_squares_if_piece_two_in_front()
+# TestPawns.test_black_pawn_cannot_move_two_squares_if_piece_two_in_front()
+#
+# TestPawns.test_white_pawn_cannot_move_two_squares_if_piece_one_in_front()
+# TestPawns.test_black_pawn_cannot_move_two_squares_if_piece_one_in_front()
+#
+# TestPawns.test_white_pawn_cannot_move_at_top_of_board()
+# TestPawns.test_black_pawn_cannot_move_at_bottom_of_board()
 
-TestPawns.test_black_pawns_can_move_down_one_square()
+TestPawns.test_white_pawns_can_capture_diagonally()
+TestPawns.test_black_pawns_can_capture_diagonally()
 
-TestPawns.test_white_pawn_can_move_up_two_squares_if_not_moved()
-
-TestPawns.test_black_pawn_can_move_down_two_squares_if_not_moved()
-
-TestPawns.test_white_pawn_cannot_move_up_two_squares_if_already_moved()
-
-TestPawns.test_black_pawn_cannot_move_down_two_squares_if_already_moved()
+TestPawns.test_white_pawns_cannot_move_diagonally_except_to_capture()
+TestPawns.test_black_pawns_cannot_move_diagonally_except_to_capture()
 
 
 test_new_board_has_white_pieces_at_bottom()
-
 test_new_board_has_black_pieces_at_top()
-
 test_pieces_can_be_moved_on_the_board()
