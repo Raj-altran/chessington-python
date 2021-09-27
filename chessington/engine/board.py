@@ -16,6 +16,7 @@ class Board:
     def __init__(self, player, board_state):
         self.current_player = Player.WHITE
         self.board = board_state
+        self.turn = 1
 
     @staticmethod
     def empty():
@@ -74,6 +75,14 @@ class Board:
         """
         moving_piece = self.get_piece(from_square)
         if moving_piece is not None and moving_piece.player == self.current_player:
+            if moving_piece.en_passant_possible(self, to_square):
+                target = Square.at(from_square.row, to_square.col)
+                self.set_piece(target, None)
             self.set_piece(to_square, moving_piece)
             self.set_piece(from_square, None)
             self.current_player = self.current_player.opponent()
+
+        if moving_piece.turn_first_moved == 0:
+            moving_piece.turn_first_moved = self.turn
+
+        self.turn +=1

@@ -14,6 +14,7 @@ class Piece(ABC):
 
     def __init__(self, player):
         self.player = player
+        self.turn_first_moved = 0
 
     @abstractmethod
     def get_available_moves(self, board):
@@ -66,6 +67,19 @@ class Piece(ABC):
                 return True
         return True
 
+    def en_passant_possible(self, board, square):
+        if not isinstance(self, Pawn):
+            return False
+        current_square = board.find_piece(self)
+        target_square = square
+        piece_square = Square.at(current_square.row, target_square.col)
+        piece = board.get_piece(piece_square)
+        if isinstance(piece, Pawn):
+            if piece.turn_first_moved == board.turn - 1:
+                if piece.player != self.player:
+                    return True
+        return False
+
 
 class Pawn(Piece):
     """
@@ -83,32 +97,34 @@ class Pawn(Piece):
             possible_moves.append(Square.at(row + 1, col))
             if row == 1:
                 possible_moves.append(Square.at(row + 2, col))
-
         else:
             possible_moves.append(Square.at(row - 1, col))
             if row == 6:
                 possible_moves.append(Square.at(row - 2, col))
 
-        possible_moves = list(filter(lambda p: self.on_board(board, p), possible_moves))
-        possible_moves = list(filter(lambda p: self.obstructed_colour(board, p) is None, possible_moves))
+        possible_moves = list(filter(lambda s: self.on_board(board, s), possible_moves))
+        possible_moves = list(filter(lambda s: self.obstructed_colour(board, s) is None, possible_moves))
 
         capture_moves = []
 
         if self.player == Player.WHITE:
             capture_moves.append(Square.at(row + 1, col + 1))
             capture_moves.append(Square.at(row + 1, col - 1))
-            capture_moves = list(filter(lambda p: self.on_board(board, p), capture_moves))
-            capture_moves = list(filter(lambda p: self.obstructed_colour(board, p) is Player.BLACK, capture_moves))
-
+            capture_moves = list(filter(lambda s: self.on_board(board, s), capture_moves))
+            capture_moves = list(
+                filter(lambda s: self.obstructed_colour(board, s) is Player.BLACK or self.en_passant_possible(board, s),
+                       capture_moves))
         else:
             capture_moves.append(Square.at(row - 1, col + 1))
             capture_moves.append(Square.at(row - 1, col - 1))
-            capture_moves = list(filter(lambda p: self.on_board(board, p), capture_moves))
-            capture_moves = list(filter(lambda p: self.obstructed_colour(board, p) is Player.WHITE, capture_moves))
+            capture_moves = list(filter(lambda s: self.on_board(board, s), capture_moves))
+            capture_moves = list(
+                filter(lambda s: self.obstructed_colour(board, s) is Player.WHITE or self.en_passant_possible(board, s),
+                       capture_moves))
 
         possible_moves.extend(capture_moves)
 
-        possible_moves = list(filter(lambda p: self.obstructed_path(board, p) is False, possible_moves))
+        possible_moves = list(filter(lambda s: self.obstructed_path(board, s) is False, possible_moves))
 
         return possible_moves
 
@@ -137,7 +153,23 @@ class Rook(Piece):
     """
 
     def get_available_moves(self, board):
-        return []
+
+        current = board.find_piece(self)
+        row = current.row
+        col = current.col
+        possible_moves = []
+
+        for i in range(8):
+            possible_moves.append(Square.at(i, col))
+
+        for i in range(8):
+            possible_moves.append(Square.at(row, i))
+
+        possible_moves = list(filter(lambda s: self.on_board(board, s), possible_moves))
+        possible_moves = list(filter(lambda s: self.obstructed_colour(board, s) is not self.player, possible_moves))
+        possible_moves = list(filter(lambda s: not self.obstructed_path(board, s), possible_moves))
+
+        return possible_moves
 
 
 class Queen(Piece):
